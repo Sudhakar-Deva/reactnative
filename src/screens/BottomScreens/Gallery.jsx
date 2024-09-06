@@ -30,7 +30,7 @@ const Gallery = () => {
     );
     if (perGrand === PermissionsAndroid.RESULTS.GRANTED) {
       const result = launchCamera(camImg);
-      setCameraPhoto(result.assets[0].uri);
+      setCameraPhoto(result.assets[1].uri);
     }
   };
   return (
@@ -68,7 +68,7 @@ const Gallery = () => {
             <TouchableOpacity onPress={openCamera}>
               <Text style={{color: 'red'}}>Open Camera</Text>
             </TouchableOpacity>
-            {/* <Image source={{uri: galleryPhoto}} /> */}
+            <Image source={{uri: galleryPhoto}} />
           </View>
         </View>
       </View>

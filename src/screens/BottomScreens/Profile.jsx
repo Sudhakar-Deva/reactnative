@@ -6,12 +6,63 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {useRoute} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {RNPickerSelect} from '@react-native-picker/picker';
-import Icon from 'react-native-vector-icons/FontAwesome';
-const Profile = () => {
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icons from 'react-native-vector-icons/Feather';
+import Iconn from 'react-native-vector-icons/MaterialIcons';
+import React, {useEffect, useState} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {Library} from '../../AppConfig/redux/Actions/profileActions';
+import SiginInLogo from '../../Images/SiginInLogo.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const Profile = ({navigation}) => {
+  const dispatch = useDispatch();
+  // const [Photo, setPhoto] = useState();
+  let camImg = {
+    SaveToPhoto: true,
+    mediaType: 'photo',
+  };
+  const openLibrary = async () => {
+    const res = await launchImageLibrary(camImg);
+    console.log('res', res);
+    // setPhoto(res.assets[0].uri);
+    // const userData = {Photo};
+    dispatch(Library(res.assets[0].uri));
+  };
+  //retrive the data from the redux
+  const user = useSelector(state => state.picture.user);
+  console.log('user', user);
+  // let userImag;
+  // if (user === null) {
+  //   userImag =
+  //     '/Users/softsuave/Documents/study/navigation/NavigationProject/src/Images/SiginInLogo.png';
+  // } else {
+  //   userImag = user.Photo;
+  // }
+  const [userData, setUserData] = useState({
+    name: '',
+    Email: '',
+  });
+  const reduxUser = useSelector(state => state.user);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedUserData = await AsyncStorage.getItem('userData'); // Retrieve user data from AsyncStorage
+        console.log('Stored User Data:', storedUserData); // Log it here after retrieval
+        if (storedUserData) {
+          setUserData(JSON.parse(storedUserData)); // Parse and set the user data
+        } else {
+          console.log('No data found in AsyncStorage');
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data from AsyncStorage', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -26,17 +77,22 @@ const Profile = () => {
           }}>
           <View style={styles.button}>
             <TouchableOpacity>
-              <Icon name="person" size={20} color="black" />
+              <Icons name="arrow-left" size={25} color="black" />
             </TouchableOpacity>
             <TouchableOpacity>
               <Text style={{color: 'red'}}>LOG OUT</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.logo} /* for top profile and name   */>
-            <Image
-              style={styles.tinyLogo}
-              source={require('/Users/softsuave/Documents/study/navigation/NavigationProject/src/Images/SiginInLogo.png')}
-            />
+          <View style={styles.logo}>
+            <TouchableOpacity onPress={openLibrary}>
+              <Image
+                style={styles.tinyLogo}
+                //source={require('/Users/softsuave/Documents/study/navigation/NavigationProject/src/Images/SiginInLogo.png')}
+                //source={{uri: Photo}}
+                source={user ? {uri: user} : SiginInLogo}
+              />
+            </TouchableOpacity>
+
             <View style={{width: '65%'}}>
               <Text style={{fontSize: 35}}>My Profile</Text>
               <Text style={{fontSize: 20}}>jessica White</Text>
@@ -57,11 +113,13 @@ const Profile = () => {
           <View style={styles.details}>
             <View style={styles.container}>
               <Text style={styles.text}>Username:</Text>
-              <TextInput style={styles.textInput} placeholder="username" />
+              {/* <TextInput style={styles.textInput} placeholder="username" /> */}
+              <Text style={styles.textInput}>{userData.name}</Text>
             </View>
             <View style={styles.container}>
-              <Text style={styles.text}>Email:</Text>
-              <TextInput style={styles.textInput} placeholder="Email" />
+              <Text style={styles.text}>Email</Text>
+              {/* <TextInput style={styles.textInput} placeholder="Email" /> */}
+              <Text style={styles.textInput}>{userData.Email}</Text>
             </View>
             <View style={styles.container}>
               <Text style={styles.text}>Gender:</Text>
@@ -71,27 +129,27 @@ const Profile = () => {
         </View>
         <View style={styles.search}>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Search</Text>
-          <Icon name="person" size={20} color="black" />
+          <Icons name="search" size={25} color="black" />
         </View>
         <View style={styles.navigationButtons}>
           <TouchableOpacity style={styles.textnavigation}>
-            <Icon name="person" size={20} color="black" />
+            <Icon name="bell-outline" size={25} color="black" />
             <Text style={styles.navtext}>Notification Preference</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.textnavigation}>
-            <Icon name="person" size={20} color="black" />
+            <Icons name="smile" size={25} color="black" />
             <Text style={styles.navtext}>Support</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.textnavigation}>
-            <Icon name="person" size={20} color="black" />
+            <Icons name="cast" size={25} color="black" />
             <Text style={styles.navtext}>Screen Cast Management</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.textnavigation}>
-            <Icon name="person" size={20} color="black" />
+            <Iconn name="payment" size={25} color="black" />
             <Text style={styles.navtext}>Payments</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.textnavigation}>
-            <Icon name="person" size={20} color="black" />
+            <Icons name="help-circle" size={25} color="black" />
             <Text style={styles.navtext}>Help</Text>
           </TouchableOpacity>
         </View>
@@ -99,9 +157,7 @@ const Profile = () => {
     </SafeAreaView>
   );
 };
-
 export default Profile;
-
 const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
@@ -162,8 +218,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   textnavigation: {
-    padding: 15,
-    marginTop: 15,
+    //padding: 15,
+    marginTop: 40,
     flexDirection: 'row',
   },
   navtext: {

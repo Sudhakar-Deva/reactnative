@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import SignIn from './SignIn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Navigation wprks
 

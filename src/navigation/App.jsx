@@ -1,29 +1,30 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Provider} from 'react-redux';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Home from './Home';
-import BottomTab from '../screens/Control';
+import {Provider} from 'react-redux';
+import store from '../AppConfig/redux/Store/store';
+import BottomTab from './BottomTab';
+import StackNavigation from './StackNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Stack = createNativeStackNavigator();
 export default function App() {
   // return <Home />;
+  const [issignUp, setIssignUp] = useState(false);
+  async function getData() {
+    const data = await AsyncStorage.getItem('isSignedUp');
+    setIssignUp(data);
+  }
+  useEffect(() => {
+    getData();
+  });
   return (
-    <GestureHandlerRootView>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="app" component={BottomTab} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView>
+        <NavigationContainer>
+          {issignUp ? <BottomTab /> : <StackNavigation />}
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 //navigation

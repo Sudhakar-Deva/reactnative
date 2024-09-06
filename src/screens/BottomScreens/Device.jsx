@@ -6,17 +6,17 @@ import {
   Image,
   SafeAreaView,
   Modal,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Overlay} from 'react-native-elements';
 
 const Device = () => {
-  const [Visible, setModalVisible] = useState(false);
+  const [ModelVisible, setModalVisible] = useState(false);
+  const devices = ['Pranos1', 'Pranos2', 'Pranos3'];
 
-  const toggleModal = () => {
-    setModalVisible(!Visible);
-  };
+  // const toggleModal = () => {
+  //   setModalVisible(!ModelVisible);
+  // };
   return (
     <SafeAreaView
       style={{
@@ -46,11 +46,13 @@ const Device = () => {
           </Text>
 
           <View style={styles.button}>
-            <TouchableOpacity style={styles.buttontext} onPress={toggleModal}>
+            <TouchableOpacity
+              style={styles.buttontext}
+              onPress={() => setModalVisible(true)}>
               <Text style={{color: 'white'}}>Connect</Text>
             </TouchableOpacity>
 
-            <Overlay isVisible={Visible} onBackdropPress={toggleModal}>
+            {/* <Overlay isVisible={Visible} onBackdropPress={toggleModal}>
               <View>
                 <Text style={styles.overlayText}>
                   Connect using WiFi network
@@ -84,7 +86,25 @@ const Device = () => {
                 </View>
                 <View></View>
               </View>
-            </Overlay>
+            </Overlay> */}
+            {/* <Modal
+              isVisible={ModelVisible}
+              transparent={true}
+              animationType="slide"
+              style={{zIndex: 999}}>
+              <View style={styles.Device}>
+                {devices.map((device, index) => (
+                  <View key={index}>
+                    <Text style={styles.availText}>{device}</Text>
+                  </View>
+                ))}
+              </View>
+              <TouchableOpacity
+                style={styles.buttontext}
+                onPress={() => setModalVisible(false)}>
+                <Text style={{color: 'white'}}>Dis Connect</Text>
+              </TouchableOpacity>
+            </Modal> */}
           </View>
         </View>
       </View>

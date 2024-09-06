@@ -1,12 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import Device from './Device';
-import Gallery from './Gallery';
-import Profile from './Profile';
 import {SafeAreaView} from 'react-native-safe-area-context';
 //import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Control = () => {
   return (
@@ -48,6 +43,7 @@ const Control = () => {
   );
 };
 
+export default Control;
 const styles = StyleSheet.create({
   logo: {
     alignItems: 'center',
@@ -78,42 +74,3 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
-
-const Tab = createBottomTabNavigator();
-
-export default function BottomTab() {
-  return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen
-        name="Device"
-        component={Device}
-        options={{
-          tabBarIcon: () => <Icon name="" size={30} color="black" />,
-        }}
-      />
-      <Tab.Screen
-        name="Gallery"
-        component={Gallery}
-        options={{
-          tabBarIcon: () => <Icon name="person" size={30} color="black" />,
-        }}
-      />
-      <Tab.Screen
-        name="Control"
-        component={Control}
-        options={{
-          tabBarIcon: () => <Icon name="person" size={30} color="black" />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: () => (
-            <Icon name="person-rifle" size={30} color="black" />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}

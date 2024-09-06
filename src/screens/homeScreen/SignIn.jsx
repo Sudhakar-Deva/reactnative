@@ -8,13 +8,11 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import Control from '../screens/Control';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+import Icon from 'react-native-vector-icons/Feather';
 const SignIn = ({navigation}) => {
   const Sign_In = () => {
-    navigation.replace('app');
+    navigation.replace('BottomTab');
   };
   return (
     <View>
@@ -62,6 +60,22 @@ const SignIn = ({navigation}) => {
             </TouchableOpacity>
             </View>
           </View> */}
+          <View>
+            <Text style={styles.OtherOptiontext}>Or Login With</Text>
+          </View>
+          <View>
+            <View style={styles.touchicons}>
+              <TouchableOpacity>
+                <Icon name="facebook" size={40} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Icon name="instagram" size={40} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Icon name="twitter" size={40} color="white" />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -96,7 +110,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    textAlign: 'center',
+    //textAlign: 'center',
     backgroundColor: 'white',
     marginVertical: 20,
     width: 300,
@@ -113,5 +127,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 50,
     marginVertical: 10,
+  },
+  OtherOptiontext: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingBottom: 15,
+  },
+  touchicons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    //borderTopWidth: 1,
+    //borderTopColor: 'white',
+    padding: 30,
   },
 });
